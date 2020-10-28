@@ -19,7 +19,7 @@ func (r *StringResult) Unwrap() string {
 	return r.Result
 }
 
-// Default 没值时返回默认值
+// Default 没值时返回string默认值
 func (r *StringResult) Default(s string) string {
 	if r.Err != nil {
 		return s
