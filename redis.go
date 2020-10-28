@@ -15,13 +15,13 @@ var (
 )
 
 // Redis 创建redis客户端
-func Redis(db int, addr, password string) *redis.Client {
+func Redis() *redis.Client {
 	once.Do(func() {
 		client = redis.NewClient(&redis.Options{
-			DB:       db,
+			DB:       0,
 			Network:  "tcp",
-			Addr:     addr,
-			Password: password,
+			Addr:     "127.0.0.1:6379",
+			Password: "apple",
 			// 连接池容量及闲置连接数量
 			PoolSize:     15,
 			MinIdleConns: 10,

@@ -8,7 +8,7 @@ import (
 
 func TestRedis(t *testing.T) {
 	ctx := context.Background()
-	redis := Redis(0, "127.0.0.1:6379", "apple")
+	redis := Redis()
 	expire := time.Second * 3
 	expired := expire + 1
 
