@@ -26,3 +26,8 @@ func (r *SliceResult) Default(any []interface{}) []interface{} {
 	}
 	return r.Result
 }
+
+// Iter 迭代
+func (r *SliceResult) Iter() *Iterator {
+	return NewIterator(r.Result)
+}
