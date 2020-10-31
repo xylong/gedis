@@ -19,6 +19,14 @@ func (r *StringResult) Unwrap() string {
 	return r.Result
 }
 
+// UnwrapElse 出错后的自定义操作
+func (r *StringResult) UnwrapElse(f func() string) string {
+	if r.Err != nil {
+		return f()
+	}
+	return r.Result
+}
+
 // Default 没值时返回string默认值
 func (r *StringResult) Default(s string) string {
 	if r.Err != nil {
