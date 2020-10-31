@@ -2,6 +2,10 @@ package example
 
 import "testing"
 
-func TestUserExample(t *testing.T) {
-	t.Log(UserExample())
+func TestUserJsonExample(t *testing.T) {
+	t.Log(UserJsonExample())
+}
+
+func TestUserGobExample(t *testing.T) {
+	t.Log(UserGobExample())
 }
