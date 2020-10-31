@@ -18,10 +18,12 @@ var (
 
 func init() {
 	UserCacheJsonPool = &sync.Pool{New: func() interface{} {
-		return cache.NewSimple(operation.NewString(), time.Minute*1, cache.SerializeJson)
+		return cache.NewSimple(
+			operation.NewString(), time.Minute*1, cache.SerializeJson, operation.NewPenetratePolicy("^users:\\d{1,100}$"))
 	}}
 	UserCacheGobPool = &sync.Pool{New: func() interface{} {
-		return cache.NewSimple(operation.NewString(), time.Minute*1, cache.SerializeGob)
+		return cache.NewSimple(
+			operation.NewString(), time.Minute*1, cache.SerializeGob, operation.NewPenetratePolicy("^users:\\d{1,100}$"))
 	}}
 }
 

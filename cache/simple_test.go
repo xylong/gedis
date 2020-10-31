@@ -5,9 +5,12 @@ import (
 	"log"
 	"math/rand"
 	"strconv"
+	"sync"
 	"testing"
 	"time"
 )
+
+var wg sync.WaitGroup
 
 // TestSimple_Get 测试从缓存获取数据
 func TestSimple_Get(t *testing.T) {
@@ -15,8 +18,8 @@ func TestSimple_Get(t *testing.T) {
 	key := "test:" + strconv.Itoa(rand.Intn(10))
 	expire := time.Second * 20
 
-	cache := NewSimple(operation.NewString(), expire)
-	cache.Getter = func() string {
+	cache := NewSimple(operation.NewString(), expire, SerializeJson, nil)
+	cache.Getter = func() interface{} {
 		time.Sleep(time.Microsecond * 500)
 		log.Println("get data from db") // 模拟从db获取数据
 		return "go go go~"
@@ -24,4 +27,29 @@ func TestSimple_Get(t *testing.T) {
 
 	t.Log(cache.Get(key)) // 第一次没有数据从db获取
 	t.Log(cache.Get(key)) // 第二次直接从缓存中获取
+}
+
+func TestSimple_Get2(t *testing.T) {
+	expire := time.Second * 20
+	cache := NewSimple(operation.NewString(), expire, SerializeJson, operation.NewPenetratePolicy("^test:([1-9]|[1-9]\\d|100)$"))
+	cache.Getter = func() interface{} {
+		return time.Now().Unix()
+	}
+
+	keys := []string{"test:a", "test:-1", "test:0", "test:101", "test:100.5", "test:100"}
+	for _, key := range keys {
+		wg.Add(1)
+		go func(key string) {
+			defer wg.Done()
+
+			defer func() {
+				if err := recover(); err != nil {
+					t.Log(err)
+				}
+			}()
+
+			t.Log(key, cache.Get(key))
+		}(key)
+	}
+	wg.Wait()
 }

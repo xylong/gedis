@@ -30,11 +30,13 @@ type Simple struct {
 	Getter DBGetterFunc
 	// Serialization 序列化方式
 	Serialization string
+	// Policy 策略
+	Policy operation.Policy
 }
 
 // NewSimple 创建简单缓存
-func NewSimple(operation *operation.String, expire time.Duration, serialization string) *Simple {
-	return &Simple{Operation: operation, Expire: expire, Serialization: serialization}
+func NewSimple(operation *operation.String, expire time.Duration, serialization string, policy operation.Policy) *Simple {
+	return &Simple{Operation: operation, Expire: expire, Serialization: serialization, Policy: policy}
 }
 
 // Set 设置缓存
@@ -44,6 +46,11 @@ func (s *Simple) Set(key string, value interface{}) {
 
 // Get 获取缓存
 func (s *Simple) Get(key string) (value interface{}) {
+	// 检查策略
+	if s.Policy != nil {
+		s.Policy.Before(key)
+	}
+
 	var f func() string
 	obj := s.Getter()
 
