@@ -1,4 +1,4 @@
-module gedis
+module github.com/xylong/gedis
 
 go 1.15
 
