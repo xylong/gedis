@@ -2,7 +2,7 @@ package operation
 
 import (
 	"context"
-	"gedis"
+	"github.com/xylong/gedis"
 	"time"
 )
 

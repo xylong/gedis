@@ -2,8 +2,8 @@ package example
 
 import (
 	"fmt"
-	"gedis/cache"
-	"gedis/operation"
+	"github.com/xylong/gedis/cache"
+	"github.com/xylong/gedis/operation"
 	"math/rand"
 	"sync"
 	"time"

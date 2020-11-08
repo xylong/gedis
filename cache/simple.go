@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/gob"
 	"encoding/json"
-	"gedis/operation"
+	"github.com/xylong/gedis/operation"
 	"log"
 	"reflect"
 	"time"

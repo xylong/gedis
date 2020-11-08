@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"gedis/operation"
+	"github.com/xylong/gedis/operation"
 	"log"
 	"math/rand"
 	"strconv"
